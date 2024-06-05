@@ -1,12 +1,9 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Player.Movement
 {
     public class PlayerMover : MonoBehaviour, IMover
     {
-        private const float InputThreshold = 0.1f;
         [SerializeField] private float _acceleration = 20;
         [SerializeField] private float _friction = 10;
         [SerializeField] private float _maxSpeed = 40;
@@ -19,10 +16,12 @@ namespace Player.Movement
         private Vector3 _oldVelocity3d;
         private Vector3 _newVelocity3d;
 
-        public void Init(Transform movable, Transform model)
+        public float RelativeSpeed => Mathf.Abs(_velocity) / _maxSpeed;
+
+        public void Init(IMovable movable)
         {
-            _movable = movable;
-            _model = model;
+            _movable = movable.Self;
+            _model = movable.Model;
         }
 
         public void Move(float input, float deltaTime)

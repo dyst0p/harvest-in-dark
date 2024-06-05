@@ -1,8 +1,11 @@
-using UnityEngine;
-
-public interface IMover
+namespace Player.Movement
 {
-    public void Init(Transform movable, Transform model);
-    public void Move(float input, float deltaTime);
-    public void Rotate(float input, float deltaTime);
+    public interface IMover
+    {
+        public float RelativeSpeed { get; }
+    
+        public void Init(IMovable movable);
+        public void Move(float input, float deltaTime);
+        public void Rotate(float input, float deltaTime);
+    }
 }

@@ -1,36 +1,27 @@
-using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class PlayerMover : MonoBehaviour
+namespace Player.Movement
 {
-    public float Speed = 1;
-    public float RotationSpeed = 45;
-
-    private void FixedUpdate()
+    public class PlayerMover : MonoBehaviour, IMover
     {
-        float horInput = 0;
-        float rotInput = 0;
-        if (Input.GetKey(KeyCode.W))
-            horInput += 1;
-        if (Input.GetKey(KeyCode.S))
-            horInput -= 1;
-        if (Input.GetKey(KeyCode.A))
-            rotInput -= 1;
-        if (Input.GetKey(KeyCode.D))
-            rotInput += 1;
+        [SerializeField] private float Speed = 20;
+        [SerializeField] private float RotationSpeed = 120;
 
-        Rotate(rotInput);
-        Move(horInput);
-    }
+        private Transform _movable;
 
-    void Rotate(float input)
-    {
-        transform.Rotate(Vector3.up, input * Time.fixedDeltaTime * RotationSpeed);
-    }
-    
-    void Move(float input)
-    {
-        transform.Translate(Vector3.forward * (input * Time.fixedDeltaTime * Speed));
+        public void Init(Transform movable)
+        {
+            _movable = movable;
+        }
+
+        public void Move(float input, float deltaTime)
+        {
+            _movable.Translate(Vector3.forward * (input * deltaTime * Speed));
+        }
+
+        public void Rotate(float input, float deltaTime)
+        {
+            _movable.Rotate(Vector3.up, input * deltaTime * RotationSpeed);
+        }
     }
 }
